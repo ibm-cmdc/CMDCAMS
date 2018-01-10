@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd	
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+		
+	
+	<context:component-scan base-package="com.ibm.ams.controller" />
+	
+	
+	<mvc:annotation-driven>
+	    <mvc:message-converters>
+	        <!-- default StringHttpMessageConverter, solve encoding problem -->
+	        <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+	            <constructor-arg value="UTF-8" />
+	            <property name="writeAcceptCharset" value="false" />
+	        </bean>
+	    </mvc:message-converters>
+	</mvc:annotation-driven>
+	
+	<mvc:default-servlet-handler/>
+	
+	<!-- 配置SpringMVC的视图解析器 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- JstlView表示JSP模板页面需要使用JSTL标签库，classpath中必须包含jstl的相关jar包； -->
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>  
+		<property name="prefix" value="/WEB-INF/jsp/"/>
+		<property name="suffix" value=".jsp"/>
+	</bean>
+
+	<!-- 访问拦截  -->  
+  	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**/**"/>
+			<bean class="com.ibm.ams.interceptor.LoginHandlerInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	<!-- springmvc提供的简单异常处理器 -->
+	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+     <!-- 定义默认的异常处理页面 -->
+    <property name="defaultErrorView" value="/404"/>
+    <!-- 定义异常处理页面用来获取异常信息的变量名，也可不定义，默认名为exception --> 
+    <property name="exceptionAttribute" value="ex"/>
+    <!-- 定义需要特殊处理的异常，这是重要点 --> 
+    <property name="exceptionMappings">
+        <props>
+            <prop key="com.ibm.ams.exception.AMSException">/hello</prop>
+        </props>
+    <!--    	 还可以定义其他的自定义异常   --> 
+    </property>
+    
+</bean>
+	 
+	
+	
+</beans>

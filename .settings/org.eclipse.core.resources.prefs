@@ -1,0 +1,16 @@
+eclipse.preferences.version=1
+encoding//src/main/java/com/ibm/ams/controller/base/BaseController.java=UTF-8
+encoding//src/main/java/com/ibm/ams/controller/mdm/MdmController.java=UTF-8
+encoding//src/main/java/com/ibm/ams/controller/system/LoginController.java=UTF-8
+encoding//src/main/java/com/ibm/ams/dao/redis/impl/RedisDaoImpl.java=UTF-8
+encoding//src/main/java/com/ibm/ams/dao/redis/queue/PubClient.java=UTF-8
+encoding//src/main/java/com/ibm/ams/interceptor/LoginHandlerInterceptor.java=UTF-8
+encoding//src/main/java/com/ibm/ams/test/TestAction.java=UTF-8
+encoding//src/main/java/com/ibm/ams/util/PageData.java=UTF-8
+encoding//src/main/java/com/ibm/ams/util/wechat/JSSDKUtil.java=UTF-8
+encoding//src/main/resources/redis.properties=UTF-8
+encoding//src/main/webapp=UTF-8
+encoding//src/main/webapp/2.jsp=UTF-8
+encoding//src/main/webapp/AMS/assets/css/admin.css=UTF-8
+encoding//src/main/webapp/AMS/mdm_zckp.html=UTF-8
+encoding/<project>=UTF-8

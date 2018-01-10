@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"    
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans    
+						http://www.springframework.org/schema/beans/spring-beans-3.2.xsd    
+    					http://cxf.apache.org/jaxws       
+				        http://cxf.apache.org/schemas/jaxws.xsd">
+				        
+    
+   <bean id="helloService" class="com.ibm.ams.interservice.test.HelloServiceImpl"></bean>  
+   <jaxws:endpoint implementor="#helloService" address="test/hello1">
+	    <!-- 添加in拦截器 -->
+	    <jaxws:inInterceptors>
+	         <bean class="org.apache.cxf.interceptor.LoggingInInterceptor"/>
+	    </jaxws:inInterceptors>
+	    <!-- 添加out拦截器 -->
+	    <jaxws:outInterceptors>
+	         <bean class="org.apache.cxf.interceptor.LoggingInInterceptor"/>
+	    </jaxws:outInterceptors> 
+    </jaxws:endpoint>
+    
+   <jaxws:endpoint implementor="#helloService" address="test/hello2"/> 
+       
+</beans> 

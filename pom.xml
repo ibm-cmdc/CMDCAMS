@@ -1,0 +1,17 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>CMDC</groupId>
+  <artifactId>CMDCAMS</artifactId>
+  <version>0.0.1-IBM</version>
+  <packaging>war</packaging>
+  <dependencies>
+  <!-- https://mvnrepository.com/artifact/org.apache.struts/struts2-core -->
+	<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
+	
+	<dependency>
+		<groupId>log4j</groupId>
+		<artifactId>log4j</artifactId>
+		<version>1.2.12</version>
+	</dependency>
+  </dependencies>
+</project>
