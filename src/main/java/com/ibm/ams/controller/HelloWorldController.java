@@ -54,7 +54,7 @@ public class HelloWorldController extends BaseController{
 
 	@RequestMapping(value="/hello", method = RequestMethod.GET)
 	public ModelAndView hello() throws AMSException{
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub sdf
 		
 		PageData pd = new PageData();
 //		pd = this.getPageData();
