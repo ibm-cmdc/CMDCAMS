@@ -49,6 +49,7 @@
     <property name="exceptionMappings">
         <props>
             <prop key="com.ibm.ams.exception.AMSException">/hello</prop>
+            <prop key="com.ibm.ams.exception.AuthorizationException">/401</prop>
         </props>
     <!--    	 还可以定义其他的自定义异常   --> 
     </property>

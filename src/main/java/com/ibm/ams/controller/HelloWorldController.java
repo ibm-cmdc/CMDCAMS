@@ -14,9 +14,11 @@ import com.ibm.ams.dao.redis.queue.QueueListener;
 import com.ibm.ams.dao.redis.queue.QueueThread;
 import com.ibm.ams.dao.redis.queue.SubClient;
 import com.ibm.ams.entity.system.Menu;
+import com.ibm.ams.entity.token.TokenModel;
 import com.ibm.ams.exception.AMSException;
 import com.ibm.ams.init.AmsCache;
 import com.ibm.ams.service.menu.MenuManager;
+import com.ibm.ams.service.token.impl.RedisTokenManager;
 import com.ibm.ams.service.user.UserManager;
 import com.ibm.ams.test.Print;
 import com.ibm.ams.util.DbFH;
@@ -51,6 +53,9 @@ public class HelloWorldController extends BaseController{
 	private MenuManager menuService;
 	@Resource(name = "redisDaoImpl")
 	private RedisDao redisDaoImpl;
+	
+	@Resource(name = "redisTokenManager")
+	private RedisTokenManager redisTokenManager;
 
 	@RequestMapping(value="/hello", method = RequestMethod.GET)
 	public ModelAndView hello() throws AMSException{
@@ -83,7 +88,7 @@ public class HelloWorldController extends BaseController{
 		
 		
 		
-		
+		/*
 		BigInteger rights = RightsHelper.sumRights(Tools.str2StrArray("101,102"));
 		
 		System.out.println(rights.toString()+"##############################");
@@ -101,8 +106,15 @@ public class HelloWorldController extends BaseController{
 		JSONArray arr = JSONArray.fromObject(readMenu);
 		String json = arr.toString();
 		
+		*/
+		
+		TokenModel createToken = redisTokenManager.createToken("33333333");
+		
+		boolean checkToken = redisTokenManager.checkToken(createToken);
+		
 		ModelAndView mv = new ModelAndView();  
-	       mv.addObject("message", json);  
+	     //  mv.addObject("message", json);  
+	       mv.addObject("message", "OK"+checkToken+"--"+createToken.getToken());  
 	       mv.setViewName("hello");  
 	       return mv;  
 	       
