@@ -1,16 +1,20 @@
 package com.ibm.ams.entity.system;
 
-
+/**
+ * 角色主表
+ */
 public class Role {
-	private String ROLE_ID;
-	private String ROLE_NAME;
-	private String RIGHTS;
-	private String PARENT_ID;
-	private String ADD_QX;
-	private String DEL_QX;
-	private String EDIT_QX;
-	private String CHA_QX;
-	
+	private String ROLE_ID;   //角色ID
+	private String ROLE_NAME; //角色名称
+	private String PARENT_ID; //父角色ID
+	private String RIGHTS;    //菜单序列
+	private String ADD_QX;    //创建功能
+	private String DEL_QX;    //删除功能
+	private String EDIT_QX;   //编辑功能
+	private String QUR_QX;    //查询功能
+	private String PLATFORM;  //系统平台
+	private String ROLE_TYPE; //角色类型
+
 	public String getROLE_ID() {
 		return ROLE_ID;
 	}
@@ -53,11 +57,23 @@ public class Role {
 	public void setEDIT_QX(String eDIT_QX) {
 		EDIT_QX = eDIT_QX;
 	}
-	public String getCHA_QX() {
-		return CHA_QX;
+	public String getQUR_QX() {
+		return QUR_QX;
 	}
-	public void setCHA_QX(String cHA_QX) {
-		CHA_QX = cHA_QX;
+	public void setQUR_QX(String qUR_QX) {
+		QUR_QX = qUR_QX;
+	}
+	public String getPLATFORM() {
+		return PLATFORM;
+	}
+	public void setPLATFORM(String pLATFORM) {
+		PLATFORM = pLATFORM;
+	}
+	public String getROLE_TYPE() {
+		return ROLE_TYPE;
+	}
+	public void setROLE_TYPE(String rOLE_TYPE) {
+		ROLE_TYPE = rOLE_TYPE;
 	}
 	
 	

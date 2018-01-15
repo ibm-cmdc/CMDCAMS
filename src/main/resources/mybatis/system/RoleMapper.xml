@@ -2,42 +2,53 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="RoleMapper">
-	
+
 	<resultMap type="Role" id="roleResultMap">
-		<id column="ROLE_ID" property="ROLE_ID"/>
-		<result column="ROLE_NAME" property="ROLE_NAME"/>
-		<result column="RIGHTS" property="RIGHTS"/>
+		<id column="ROLE_ID" property="ROLE_ID" />
+		<result column="ROLE_NAME" property="ROLE_NAME" />
+		<result column="PARENT_ID" property="PARENT_ID" />
+		<result column="RIGHTS" property="RIGHTS" />
+		<result column="ADD_QX" property="ADD_QX" />
+		<result column="DEL_QX" property="DEL_QX" />
+		<result column="EDIT_QX" property="EDIT_QX" />
+		<result column="QUR_QX" property="QUR_QX" />
+		<result column="PLATFORM" property="PLATFORM" />
+		<result column="ROLE_TYPE" property="ROLE_TYPE" />
 	</resultMap>
-	
+
 	<!-- 字段 -->
 	<sql id="Field">
 		"ROLE_ID",
 		"ROLE_NAME",
-		"RIGHTS",
 		"PARENT_ID",
+		"RIGHTS",
 		"ADD_QX",
 		"DEL_QX",
 		"EDIT_QX",
-		"CHA_QX"
+		"QUR_QX",
+		"PLATFORM",
+		"ROLE_TYPE"
 	</sql>
-	
+
 	<!-- 字段值 -->
 	<sql id="FieldValue">
 		#{ROLE_ID},
 		#{ROLE_NAME},
-		#{RIGHTS},
 		#{PARENT_ID},
+		#{RIGHTS},
 		#{ADD_QX},
 		#{DEL_QX},
 		#{EDIT_QX},
-		#{CHA_QX}
+		#{QUR_QX},
+		#{PLATFORM},
+		#{ROLE_TYPE}
 	</sql>
-	
+
 	<!--表名 -->
 	<sql id="tableName">
 		"SYS_ROLE"
 	</sql>
-	
+
 	<!-- 列出此组下的角色 -->
 	<select id="listAllRolesByPId" resultMap="roleResultMap">
 		select
@@ -45,98 +56,98 @@
 		from
 		<include refid="tableName"></include>
 		where
-			"PARENT_ID" = #{ROLE_ID}
+		"PARENT_ID" = #{ROLE_ID}
 		ORDER BY "ROLE_ID"
 	</select>
-	
+
 	<!-- 通过id查找 -->
 	<select id="findObjectById" parameterType="pd" resultType="pd">
-		select  
+		select
 		<include refid="Field"></include>
-		from 
+		from
 		<include refid="tableName"></include>
 		where "ROLE_ID" = #{ROLE_ID}
 	</select>
-	
+
 	<!-- 添加 -->
 	<insert id="insert" parameterType="pd">
-		insert into 
+		insert into
 		<include refid="tableName"></include>
 		(
 		<include refid="Field"></include>
 		) values (
-		<include refid="FieldValue"></include>	
+		<include refid="FieldValue"></include>
 		)
 	</insert>
-	
+
 	<!-- 保存修改 -->
 	<update id="edit" parameterType="pd">
-		update 
+		update
 		<include refid="tableName"></include>
 		set "ROLE_NAME" = #{ROLE_NAME}
 		where "ROLE_ID" = #{ROLE_ID}
 	</update>
-	
-	<!-- 删除角色  -->
+
+	<!-- 删除角色 -->
 	<delete id="deleteRoleById" parameterType="String">
-		delete from 
+		delete from
 		<include refid="tableName"></include>
 		where "ROLE_ID"=#{ROLE_ID}
 	</delete>
-	
-	<!-- 给当前角色附加菜单权限  -->
+
+	<!-- 给当前角色附加菜单权限 -->
 	<update id="updateRoleRights" parameterType="Role">
-		update 
+		update
 		<include refid="tableName"></include>
-		set "RIGHTS"=#{RIGHTS} 
+		set "RIGHTS"=#{RIGHTS}
 		where "ROLE_ID"=#{ROLE_ID}
 	</update>
-	
+
 	<!-- 通过id查找 -->
 	<select id="getRoleById" parameterType="String" resultMap="roleResultMap">
-		select * from 
+		select * from
 		<include refid="tableName"></include>
 		where "ROLE_ID"=#{ROLE_ID}
 	</select>
-	
+
 	<!-- 给全部子角色加菜单权限 -->
 	<update id="setAllRights" parameterType="pd">
-		update 
-		<include refid="tableName"></include> 
-		set "RIGHTS"=#{rights} 
+		update
+		<include refid="tableName"></include>
+		set "RIGHTS"=#{rights}
 		where "PARENT_ID"=#{ROLE_ID}
 	</update>
-	
+
 	<!-- 新增权限 -->
 	<update id="add_qx" parameterType="pd">
-		update 
-		<include refid="tableName"></include> 
-		set "ADD_QX"=#{value} 
+		update
+		<include refid="tableName"></include>
+		set "ADD_QX"=#{value}
 		where "ROLE_ID"=#{ROLE_ID}
 	</update>
-	
+
 	<!-- 删除权限 -->
 	<update id="del_qx" parameterType="pd">
 		update
 		<include refid="tableName"></include>
-		set "DEL_QX"=#{value} 
+		set "DEL_QX"=#{value}
 		where "ROLE_ID"=#{ROLE_ID}
 	</update>
-	
+
 	<!-- 修改权限 -->
 	<update id="edit_qx" parameterType="pd">
-		update 
-		<include refid="tableName"></include> 
-		set "EDIT_QX"=#{value} 
-		where "ROLE_ID"=#{ROLE_ID}
-	</update>
-	
-	<!-- 查看权限 -->
-	<update id="cha_qx" parameterType="pd">
-		update 
+		update
 		<include refid="tableName"></include>
-		set "CHA_QX"=#{value} 
+		set "EDIT_QX"=#{value}
 		where "ROLE_ID"=#{ROLE_ID}
 	</update>
-	
+
+	<!-- 查看权限 -->
+	<update id="qur_qx" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set "QUR_QX"=#{value}
+		where "ROLE_ID"=#{ROLE_ID}
+	</update>
+
 </mapper>

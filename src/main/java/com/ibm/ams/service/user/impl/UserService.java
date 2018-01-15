@@ -29,7 +29,9 @@ public class UserService implements UserManager{
 	public PageData getUserByNameAndPwd(PageData pd)throws Exception{
 		return (PageData)dao.findForObject("UserMapper.getUserInfo", pd);
 	}
-	
+	public User getUserAndRoleByNameAndPwd(PageData pd)throws Exception{
+		return (User)dao.findForObject("UserMapper.getUserAndRoleInfo", pd);
+	}
 	/**更新登录时间
 	 * @param pd
 	 * @throws Exception

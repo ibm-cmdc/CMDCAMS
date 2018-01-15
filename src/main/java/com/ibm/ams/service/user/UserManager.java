@@ -17,6 +17,8 @@ public interface UserManager {
 	 */
 	public PageData getUserByNameAndPwd(PageData pd)throws Exception;
 	
+	public User getUserAndRoleByNameAndPwd(PageData pd)throws Exception;
+	
 	/**更新登录时间
 	 * @param pd
 	 * @throws Exception

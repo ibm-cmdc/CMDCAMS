@@ -2,16 +2,20 @@ package com.ibm.ams.entity.system;
 
 import java.util.List;
 
+/**
+ * 菜单主表
+ */
 public class Menu {
 	
 	private String MENU_ID;		//菜单ID
 	private String MENU_NAME;	//菜单名称
-	private String MENU_URL;	//链接
-	private String PARENT_ID;	//上级菜单ID
-	private String MENU_ORDER;	//排序
-	private String MENU_ICON;	//图标
-	private String MENU_TYPE;	//类型
+	private String MENU_URL;	//菜单URL
+	private String PARENT_ID;	//父类菜单
+	private String MENU_ORDER;	//菜单顺序
+	private String MENU_ICON;	//菜单ICON图标
+	private String MENU_TYPE;	//菜单类型
 	private String MENU_STATE;	//菜单状态
+	private String PLATFORM;    //系统平台
 	private String target;
 	private Menu parentMenu;
 	private List<Menu> subMenu;
@@ -88,5 +92,11 @@ public class Menu {
 	}
 	public void setMENU_STATE(String mENU_STATE) {
 		MENU_STATE = mENU_STATE;
+	}
+	public String getPLATFORM() {
+		return PLATFORM;
+	}
+	public void setPLATFORM(String pLATFORM) {
+		PLATFORM = pLATFORM;
 	}
 }
