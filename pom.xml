@@ -4,10 +4,14 @@
   <artifactId>CMDCAMS</artifactId>
   <version>0.0.1-IBM</version>
   <packaging>war</packaging>
+  
+   <properties>  
+        <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>  
+    </properties> 
+  
   <dependencies>
   <!-- https://mvnrepository.com/artifact/org.apache.struts/struts2-core -->
 	<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
-	
 	<dependency>
 		<groupId>log4j</groupId>
 		<artifactId>log4j</artifactId>

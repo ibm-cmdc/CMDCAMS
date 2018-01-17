@@ -4,18 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.ibm.ams.controller.base.BaseController;
 import com.ibm.ams.entity.system.Menu;
+import com.ibm.ams.entity.system.User;
+import com.ibm.ams.entity.token.TokenModel;
 import com.ibm.ams.init.AmsCache;
+import com.ibm.ams.service.token.TokenManager;
 import com.ibm.ams.service.user.UserManager;
+import com.ibm.ams.util.Const;
 import com.ibm.ams.util.PageData;
 import com.ibm.ams.util.RightsHelper;
 
@@ -27,74 +31,71 @@ public class LoginController extends BaseController {
 	
 	@Resource(name="userService")
 	private UserManager userService;
+	@Autowired    
+	private TokenManager manager;
 	
 	/**访问登录页
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/login")
-	public ModelAndView toLogin(HttpSession httpSession) throws Exception{
-		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
+	@RequestMapping(value="/login", method = RequestMethod.GET)
+	@ResponseBody
+	public String toLogin(String txtuid,String txtpwd) throws Exception{
 		
-		String name = pd.getString("name");
-		String pwd = pd.getString("pwd");
+		JSONObject rspJson = new JSONObject();
 		
 		PageData pd1 = new PageData();
-		pd1.put("USERNAME", "zhaol");
-		pd1.put("PASSWORD", "a63802a60e54a195fc1c8181fb429be7f4d35764");
-		pd1.put("USER_ID", "2");//必须是数字
-		pd1 = userService.getUserByNameAndPwd(pd1);
-		String rights = pd1.getString("RIGHTS");
-		String username = pd1.getString("NAME");
-		if(rights==null || "".equals(rights)){
-			throw new Exception("用户无权限！");
+		pd1.put("USERNAME", txtuid);
+		pd1.put("UPASSWORD", txtpwd);
+		//pd1.put("USER_ID", "2");//必须是数字
+		User user = userService.getUserAndRoleByNameAndPwd(pd1);
+		
+		if(user==null){
+			rspJson.put(Const.RESULT_CODE, "E");
+			rspJson.put(Const.RESULT_MSG, "当前用户名或密码错误，请重新尝试!");
+			return rspJson.toString();
 		}
-		httpSession.setAttribute("v_right", rights);
-		httpSession.setAttribute("v_username", username);
-		//缓存获取菜单
-		AmsCache amsCache = AmsCache.getInstance();
-		Object map = amsCache.getMap("allmenuList");
-		//获取有权限的菜单
-		List<Menu> readMenu = new ArrayList<Menu>();
-		if(map!=null && map instanceof List){
-			List<Menu> allmenuList = (List<Menu>) map;
-			readMenu = this.readMenu(allmenuList, rights);
+		
+		String rights = user.getRole().getRIGHTS();
+		String roleid= user.getRole().getROLE_ID();
+		
+		TokenModel token = manager.createToken(user.getUSERNAME());
+		
+		if(token==null || "".equals(token.getToken())){
+			rspJson.put(Const.RESULT_CODE, "E");
+			rspJson.put(Const.RESULT_MSG, "获取登录Token失败!");
+			return rspJson.toString();
 		}
-		//输出菜单为json格式
-		JSONArray arr = JSONArray.fromObject(readMenu);
-		String json = arr.toString();
 		
-		System.out.println(name+"--"+pwd+"--"+pd1.getString("RIGHTS"));
+		rspJson.put(Const.RESULT_CODE, "S");
+		rspJson.put(Const.RESULT_MSG, "登录成功!");
+		rspJson.put("RIGHTS", rights);
+		rspJson.put("ROLE_ID", roleid);
+		rspJson.put("TOKEN", token.getToken());
 		
-		mv.setViewName("mdm/index");
-		mv.addObject("pd",pd);
 		
-		return mv;
+		return rspJson.toString();
 	}
 	
 	/** 获取登录用户所有菜单
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value="/getmenu", method = RequestMethod.POST)
+	@RequestMapping(value="/getmenu", method = RequestMethod.GET)
 	@ResponseBody
-	public String getMenu(String rights)throws Exception{
-		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
+	public String getMenu(String RIGHTS,String USER_ID,String PLATFORM)throws Exception{
 		
+		//缓存获取资产系统菜单 
 		AmsCache amsCache = AmsCache.getInstance();
-		Object map = amsCache.getMap("allmenuList");
+		Object map = amsCache.getMap("AMSMenuList");
 		
-		
+		//获取有权限的菜单
 		List<Menu> readMenu = new ArrayList<Menu>();
 		if(map!=null && map instanceof List){
 			List<Menu> allmenuList = (List<Menu>) map;
-			readMenu = this.readMenu(allmenuList,rights );
+			readMenu = this.readMenu(allmenuList,RIGHTS);
 		}
-		
+		//输出菜单为json格式
 		JSONArray arr = JSONArray.fromObject(readMenu);
 		String json = arr.toString();
 		

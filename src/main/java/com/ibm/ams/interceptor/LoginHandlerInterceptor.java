@@ -1,13 +1,14 @@
 package com.ibm.ams.interceptor;
 
+import java.io.PrintWriter;
 import java.lang.reflect.Method;
 
 import javax.servlet.http.HttpServletRequest;
 
 
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -15,8 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.ibm.ams.entity.token.TokenModel;
-import com.ibm.ams.exception.AMSException;
-import com.ibm.ams.exception.AuthorizationException;
 import com.ibm.ams.service.token.TokenManager;
 import com.ibm.ams.util.Const;
 
@@ -31,14 +30,6 @@ public class LoginHandlerInterceptor extends HandlerInterceptorAdapter{
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		// TODO Auto-generated method stub
-		/*
-		StringBuffer sb = null;
-		try{
-			System.out.println(sb.toString());
-		}catch(Exception e){
-			throw new AMSException(e.getMessage());
-		}
-		*/
 		
 		//如果不是映射到方法直接通过
 		if (!(handler instanceof HandlerMethod)) {           
@@ -46,38 +37,42 @@ public class LoginHandlerInterceptor extends HandlerInterceptorAdapter{
 		}
 		
 		HandlerMethod handlerMethod = (HandlerMethod) handler;        
-		Method method = handlerMethod.getMethod();    
+		Method method = handlerMethod.getMethod();  
+		
+		JSONObject rspJson = new JSONObject();
+		response.setContentType("application/json");
 		
 		//从header中得到token        
-		String authorization = request.getHeader(Const.AUTHORIZATION);     
+		String authorization = request.getHeader(Const.AUTHORIZATION); 
+		
+		if(authorization==null || "".equals(authorization)){
+			rspJson.put(Const.RESULT_CODE, "E");
+			rspJson.put(Const.RESULT_MSG, "接口未传输Token!");
+			PrintWriter out = response.getWriter();
+			out.print(rspJson.toString());
+	        out.flush();
+	        return false;
+		}
 		
 		//验证token        
 		TokenModel model = manager.getToken(authorization);        
 		if (manager.checkToken(model)) {            
 			//如果token验证成功，将token对应的用户id存在request中，便于之后注入            
-			request.setAttribute(Const.CURRENT_USER_ID, model.getUserId());            
+			//request.setAttribute(Const.CURRENT_USER_ID, model.getUserId());            
 			return true;        
 		}else{
 			//response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-			throw new AuthorizationException("当前请求无权限!");
+			
+			rspJson.put(Const.RESULT_CODE, "401");
+			rspJson.put(Const.RESULT_MSG, "当前用户无权限");
+			
+			PrintWriter out = response.getWriter();
+			out.print(rspJson.toString());
+	        out.flush();
+			//throw new AuthorizationException("当前请求无权限!");
+			return false;
 		}        
 		
-		/*
-		
-		String path = request.getServletPath();
-		HttpSession session = request.getSession(); 
-		String requestURI = request.getRequestURI();
-		StringBuffer requestURL = request.getRequestURL();
-		
-		//保存菜单ID
-		String parameter = request.getParameter("menuid");
-		if(parameter!=null && !"".equals(parameter)){
-			session.setAttribute("v_menuid", parameter);
-		}
-		System.out.println("进入拦截器"+"path:"+path+"---"+"URI"+requestURI+"---"+"url"+requestURL);
-		return true;
-		
-		*/
 	};
 	
 	//拦截后处理

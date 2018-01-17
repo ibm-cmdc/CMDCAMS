@@ -12,7 +12,7 @@
 		<result column="MENU_ICON" property="MENU_ICON" />
 		<result column="MENU_TYPE" property="MENU_TYPE" />
 	    <result column="MENU_STATE" property="MENU_STATE" />
-		<result column="PLATFORM" property="PLATFORM" /> 
+		<result column="MPLATFORM" property="MPLATFORM" /> 
 	</resultMap>
 
 	<!-- ztree -->
@@ -42,7 +42,7 @@
 		"MENU_ICON",
 		"MENU_TYPE",
 		"MENU_STATE",
-		"PLATFORM"
+		"MPLATFORM"
 	</sql>
 
 	<!-- 字段值 -->
@@ -55,7 +55,7 @@
 		#{MENU_ICON},
 		#{MENU_TYPE},
 		#{MENU_STATE},
-		#{PLATFORM}
+		#{MPLATFORM}
 	</sql>
 
 	<!--通过ID获取其子一级菜单 -->

@@ -23,7 +23,7 @@ import com.ibm.ams.util.Const;
      public void setRedis(RedisTemplate redis){
          this.redisTemplate = redis;
          //泛型设置成Long后必须更改对应的序列化方案
-         redisTemplate.setKeySerializer(new JdkSerializationRedisSerializer());
+         //redisTemplate.setKeySerializer(new JdkSerializationRedisSerializer());
      }
 
      public TokenModel createToken(String userId){

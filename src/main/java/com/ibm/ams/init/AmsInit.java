@@ -50,7 +50,7 @@ public class AmsInit extends HttpServlet{
 			logger.info("获取菜单总数："+allmenuList.size());
 			
 			AmsCache amsCache = AmsCache.getInstance();
-			amsCache.putMap("allmenuList", allmenuList);
+			amsCache.putMap("AMSMenuList", allmenuList);
 			
 			
 			
