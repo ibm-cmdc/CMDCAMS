@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="IntfMapper">
+	<resultMap type="Intf" id="IntfResultMap">
+		<id column="INTF_ID" property="INTF_ID" />
+		<result column="INTF_NAME" property="INTF_NAME" />
+		<result column="INTF_URL" property="INTF_URL" />
+		<result column="IPLATFORM" property="IPLATFORM" />
+	</resultMap>
+	<!--表名 -->
+	<sql id="tableName">
+		"SYS_INTF"
+	</sql>
+	<!-- 字段 -->
+	<sql id="Field">
+		"INTF_ID",
+		"INTF_NAME",
+		"INTF_URL",
+		"IPLATFORM"
+	</sql>
+
+	<!-- 字段值 -->
+	<sql id="FieldValue">
+		#{INTF_ID},
+		#{INTF_NAME},
+		#{INTF_URL},
+		#{IPLATFORM}
+	</sql>
+<!--通过ID获取其子一级菜单 -->
+	<select id="QueryIntf" parameterType="String" resultMap="IntfResultMap">
+		select
+		<include refid="Field"></include>
+		from
+		<include refid="tableName"></include>
+		where  "INTF_ID" = #{INTF_ID} 
+	</select>
+<!--新增 -->
+	<insert id="insertIntf" parameterType="Intf" >
+		insert into
+		<include refid="tableName"></include>
+		(
+		<include refid="Field"></include>
+		) values (
+		<include refid="FieldValue"></include>
+		)
+	</insert>
+<!--编辑 -->
+	<update id="updateIntf" parameterType="Intf">
+		update
+		<include refid="tableName"></include>
+		set
+		"INTF_NAME" =#{INTF_NAME},
+		"INTF_URL" =#{INTF_URL},
+		"IPLATFORM" =#{IPLATFORM}
+		where
+		"INTF_ID"=#{INTF_ID}
+	</update>
+
+<!--删除菜单 -->
+	<delete id="deleteIntfById" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where "INTF_ID"=#{INTF_ID}
+	</delete>
+
+</mapper>
