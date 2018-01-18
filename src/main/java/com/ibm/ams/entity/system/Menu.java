@@ -24,11 +24,7 @@ public class Menu {
 	private List<Menu> subMenu;
 	private boolean hasMenu = false;
 
-<<<<<<< HEAD
-=======
-	
 
->>>>>>> origin/master
 	public String getMENU_ID() {
 		return MENU_ID;
 	}
