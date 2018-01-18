@@ -3,7 +3,7 @@ package com.ibm.ams.entity.system;
 /**
  * 数据对象主表
  */
-public class BO {
+public class Bo {
 	    private String DB_ID;    //	表ID
 	    private String BO_NAME;  //	数据对象名称
 		private String BO_ID;    //	数据对象ID
