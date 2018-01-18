@@ -57,14 +57,14 @@
 		#{MENU_STATE},
 		#{MPLATFORM}
 	</sql>
-
 	<!--通过ID获取其子一级菜单 -->
 	<select id="listSubMenuByParentId" parameterType="String" resultMap="menuResultMap">
 		select
 		<include refid="Field"></include>
 		from
 		<include refid="tableName"></include>
-		where "PARENT_ID" = #{parentId} order by "MENU_ORDER"
+		where  "PARENT_ID" = #{parentId} 
+		order by "MENU_ORDER"
 	</select>
 
 	<!--通过菜单ID获取数据 -->
@@ -77,7 +77,7 @@
 	</select>
 
 	<!--新增 -->
-	<insert id="insertMenu" parameterType="Menu">
+	<insert id="insertMenu" parameterType="Menu" >
 		insert into
 		<include refid="tableName"></include>
 		(
@@ -106,11 +106,13 @@
 		<include refid="tableName"></include>
 		set
 		"MENU_NAME" =#{MENU_NAME},
-		"MENU_URL" =#{MENU_URL} ,
-		"MENU_ORDER"=#{MENU_ORDER},
-		"MENU_STATE"=#{MENU_STATE},
-		"MENU_TYPE"
-		=#{MENU_TYPE}
+		"MENU_URL" =#{MENU_URL},
+		"PARENT_ID" =#{PARENT_ID},
+		"MENU_ORDER" =#{MENU_ORDER},
+		"MENU_ICON" =#{MENU_ICON},
+		"MENU_TYPE" =#{MENU_TYPE},
+		"MENU_STATE" =#{MENU_STATE},
+		"MPLATFORM" =#{MPLATFORM}
 		where
 		"MENU_ID"=#{MENU_ID}
 	</update>

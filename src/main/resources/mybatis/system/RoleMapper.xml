@@ -12,7 +12,7 @@
 		<result column="DEL_QX" property="DEL_QX" />
 		<result column="EDIT_QX" property="EDIT_QX" />
 		<result column="QUR_QX" property="QUR_QX" />
-		<result column="PLATFORM" property="PLATFORM" />
+		<result column="RPLATFORM" property="RPLATFORM" />
 		<result column="ROLE_TYPE" property="ROLE_TYPE" />
 	</resultMap>
 
@@ -26,7 +26,7 @@
 		"DEL_QX",
 		"EDIT_QX",
 		"QUR_QX",
-		"PLATFORM",
+		"RPLATFORM",
 		"ROLE_TYPE"
 	</sql>
 
@@ -40,7 +40,7 @@
 		#{DEL_QX},
 		#{EDIT_QX},
 		#{QUR_QX},
-		#{PLATFORM},
+		#{RPLATFORM},
 		#{ROLE_TYPE}
 	</sql>
 

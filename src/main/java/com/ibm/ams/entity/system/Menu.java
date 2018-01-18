@@ -2,6 +2,8 @@ package com.ibm.ams.entity.system;
 
 import java.util.List;
 
+import com.ibm.ams.entity.Page;
+
 /**
  * 菜单主表
  */
@@ -17,10 +19,16 @@ public class Menu {
 	private String MENU_STATE; // 菜单状态
 	private String MPLATFORM; // 系统平台
 	private String target;
+	
 	private Menu parentMenu;
 	private List<Menu> subMenu;
 	private boolean hasMenu = false;
 
+<<<<<<< HEAD
+=======
+	
+
+>>>>>>> origin/master
 	public String getMENU_ID() {
 		return MENU_ID;
 	}

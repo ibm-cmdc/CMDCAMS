@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BoMapper">
+	<resultMap type="Bo" id="boResultMap">
+		<id column="DB_ID" property="DB_ID" />
+		<result column="BO_NAME" property="BO_NAME" />
+		<result column="BO_ID" property="BO_ID" />
+		<result column="BO_KEY" property="BO_KEY" />
+		<result column="BO_VALUE" property="BO_VALUE" />
+		<result column="ADD1" property="ADD1" />
+		<result column="ADD2" property="ADD2" />
+		<result column="ADD3" property="ADD3" />
+		<result column="ADD4" property="ADD4" />
+		<result column="ADD5" property="ADD5" />
+		<result column="BPLATFORM" property="BPLATFORM" />
+	</resultMap>
+	<!--表名 -->
+	<sql id="tableName">
+		"SYS_BO"
+	</sql>
+	<!-- 字段 -->
+	<sql id="Field">
+		"DB_ID",
+		"BO_NAME",
+		"BO_ID",
+		"BO_KEY",
+		"BO_VALUE",
+		"ADD1",
+		"ADD2",
+		"ADD3",
+		"ADD4",
+		"ADD5",
+		"BPLATFORM"
+	</sql>
+
+	<!-- 字段值 -->
+	<sql id="FieldValue">
+		#{DB_ID},
+		#{BO_NAME},
+		#{BO_ID},
+		#{BO_KEY},
+		#{BO_VALUE},
+		#{ADD1},
+		#{ADD2},
+		#{ADD3},
+		#{ADD4},
+		#{ADD5},
+		#{BPLATFORM}
+	</sql>
+<!--通过ID获取其子一级菜单 -->
+	<select id="QueryBo" parameterType="String" resultMap="boResultMap">
+		select
+		<include refid="Field"></include>
+		from
+		<include refid="tableName"></include>
+		where  "DB_ID" = #{DB_ID} 
+	</select>
+<!--新增 -->
+	<insert id="insertBo" parameterType="Bo" >
+		insert into
+		<include refid="tableName"></include>
+		(
+		<include refid="Field"></include>
+		) values (
+		<include refid="FieldValue"></include>
+		)
+	</insert>
+<!--编辑 -->
+	<update id="updateBo" parameterType="Bo">
+		update
+		<include refid="tableName"></include>
+		set
+		"BO_NAME" =#{BO_NAME},
+		"BO_ID" =#{BO_ID},
+		"BO_KEY" =#{BO_KEY},
+		"BO_VALUE" =#{BO_VALUE},
+		"ADD1" =#{ADD1},
+		"ADD2" =#{ADD2},
+		"ADD3" =#{ADD3},
+		"ADD4" =#{ADD4},
+		"ADD5" =#{ADD5},
+		"BPLATFORM" =#{BPLATFORM}
+		where
+		"DB_ID"=#{DB_ID}
+	</update>
+
+<!--删除菜单 -->
+	<delete id="deleteBoById" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where "DB_ID"=#{DB_ID}
+	</delete>
+
+</mapper>
