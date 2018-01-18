@@ -33,7 +33,7 @@ public class Test {
 				//String rspXml = RfcXmlUtils.fillParam2Xml(function);
 			//	System.out.println("---------------rspXml---------------\n" + rspXml);
 			} else {
-				System.out.println("º¯Êý£¨" + functionName + "£©²»´æÔÚ£¡");
+				System.out.println("" + functionName + "");
 			}
 		} catch (JCoException e) {
 			e.printStackTrace();

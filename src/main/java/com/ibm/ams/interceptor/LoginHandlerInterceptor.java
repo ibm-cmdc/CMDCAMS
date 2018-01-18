@@ -2,7 +2,9 @@ package com.ibm.ams.interceptor;
 
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
+import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -15,9 +17,13 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.ibm.ams.entity.system.RoleIntf;
 import com.ibm.ams.entity.token.TokenModel;
+import com.ibm.ams.service.roleintf.RoleIntfManager;
 import com.ibm.ams.service.token.TokenManager;
+import com.ibm.ams.service.user.UserManager;
 import com.ibm.ams.util.Const;
+import com.ibm.ams.util.PageData;
 
 
 @Component
@@ -25,6 +31,9 @@ public class LoginHandlerInterceptor extends HandlerInterceptorAdapter{
 	
 	@Autowired    
 	private TokenManager manager;
+	
+	@Resource(name="roleIntfService")
+	private RoleIntfManager roleIntfManager;
 	
 	//拦截前处理
 	@Override
@@ -35,6 +44,26 @@ public class LoginHandlerInterceptor extends HandlerInterceptorAdapter{
 		if (!(handler instanceof HandlerMethod)) {           
 			return true;        
 		}
+		
+		//验证接口权限
+		StringBuffer requestURL = request.getRequestURL();
+		String requestURI = request.getRequestURI();
+		System.out.println(requestURL+"--"+requestURI);
+		
+		String[] split = requestURI.split("/",-1);
+		for(String s:split){
+			System.out.println(s);
+		}
+		
+		
+		PageData pd1 = new PageData();
+		pd1.put("ROLE_ID", "9999");
+		List<RoleIntf> queryRoleAndIntf = roleIntfManager.QueryRoleAndIntf(pd1);
+		
+		for(RoleIntf list : queryRoleAndIntf){
+			System.out.println(list.getIntf().getINTF_NAME());
+		}
+		
 		
 		HandlerMethod handlerMethod = (HandlerMethod) handler;        
 		Method method = handlerMethod.getMethod();  
@@ -59,6 +88,10 @@ public class LoginHandlerInterceptor extends HandlerInterceptorAdapter{
 		if (manager.checkToken(model)) {            
 			//如果token验证成功，将token对应的用户id存在request中，便于之后注入            
 			//request.setAttribute(Const.CURRENT_USER_ID, model.getUserId());            
+			
+			
+			
+			
 			return true;        
 		}else{
 			//response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

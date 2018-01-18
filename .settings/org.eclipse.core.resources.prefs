@@ -5,6 +5,7 @@ encoding//src/main/java/com/ibm/ams/controller/system/LoginController.java=UTF-8
 encoding//src/main/java/com/ibm/ams/dao/redis/impl/RedisDaoImpl.java=UTF-8
 encoding//src/main/java/com/ibm/ams/dao/redis/queue/PubClient.java=UTF-8
 encoding//src/main/java/com/ibm/ams/interceptor/LoginHandlerInterceptor.java=UTF-8
+encoding//src/main/java/com/ibm/ams/sap/jco/Test.java=UTF-8
 encoding//src/main/java/com/ibm/ams/test/TestAction.java=UTF-8
 encoding//src/main/java/com/ibm/ams/util/PageData.java=UTF-8
 encoding//src/main/java/com/ibm/ams/util/wechat/JSSDKUtil.java=UTF-8
