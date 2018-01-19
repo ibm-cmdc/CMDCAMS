@@ -81,7 +81,7 @@ public class LoginController extends BaseController {
 	 */
 	@RequestMapping(value="/getmenu", method = RequestMethod.GET)
 	@ResponseBody
-	public Object getMenu(String RIGHTS,String USER_ID,String PLATFORM)throws Exception{
+	public String getMenu(String RIGHTS,String USER_ID,String PLATFORM)throws Exception{
 		
 		//缓存获取资产系统菜单 
 		AmsCache amsCache = AmsCache.getInstance();
@@ -100,7 +100,7 @@ public class LoginController extends BaseController {
 		String replace = json.replace("[]", "null");
 		
 		
-		return readMenu;
+		return replace;
 	}
 	
 	
