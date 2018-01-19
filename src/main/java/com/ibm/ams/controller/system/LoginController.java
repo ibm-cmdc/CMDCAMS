@@ -51,9 +51,7 @@ public class LoginController extends BaseController {
 		User user = userService.getUserAndRoleByNameAndPwd(pd1);
 		
 		if(user==null){
-			rspJson.put(Const.RESULT_CODE, "E");
-			rspJson.put(Const.RESULT_MSG, "当前用户名或密码错误，请重新尝试!");
-			return rspJson.toString();
+			return returnMessage("E","当前用户名或密码错误，请重新尝试!");
 		}
 		
 		String rights = user.getRole().getRIGHTS();
@@ -83,7 +81,7 @@ public class LoginController extends BaseController {
 	 */
 	@RequestMapping(value="/getmenu", method = RequestMethod.GET)
 	@ResponseBody
-	public String getMenu(String RIGHTS,String USER_ID,String PLATFORM)throws Exception{
+	public Object getMenu(String RIGHTS,String USER_ID,String PLATFORM)throws Exception{
 		
 		//缓存获取资产系统菜单 
 		AmsCache amsCache = AmsCache.getInstance();
@@ -99,7 +97,10 @@ public class LoginController extends BaseController {
 		JSONArray arr = JSONArray.fromObject(readMenu);
 		String json = arr.toString();
 		
-		return json;
+		String replace = json.replace("[]", "null");
+		
+		
+		return readMenu;
 	}
 	
 	
