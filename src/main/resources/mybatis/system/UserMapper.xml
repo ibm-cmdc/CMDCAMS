@@ -61,6 +61,19 @@
 		<result column="OPENID" property="OPENID" />
 		<result column="SECPOLICY" property="SECPOLICY" />
 	</resultMap>
+	<resultMap type="Bo" id="boResultMap">
+		<id column="DB_ID" property="DB_ID" />
+		<result column="BO_NAME" property="BO_NAME" />
+		<result column="BO_ID" property="BO_ID" />
+		<result column="BO_KEY" property="BO_KEY" />
+		<result column="BO_VALUE" property="BO_VALUE" />
+		<result column="ADD1" property="ADD1" />
+		<result column="ADD2" property="ADD2" />
+		<result column="ADD3" property="ADD3" />
+		<result column="ADD4" property="ADD4" />
+		<result column="ADD5" property="ADD5" />
+		<result column="BPLATFORM" property="BPLATFORM" />
+	</resultMap>
 
 	<!--表名 -->
 	<sql id="tableName">
@@ -68,6 +81,9 @@
 	</sql>
 	<sql id="roleTableName">
 		"SYS_ROLE"
+	</sql>
+	<sql id="boTableName">
+		"SYS_BO"
 	</sql>
 	<!-- <sql id="staffTableName"> "OA_STAFF" </sql> -->
 
@@ -129,15 +145,42 @@
 		from
 		<include refid="tableName"></include>
 		where 1=1
-		<if test="USERNAME!=null and PASSWORD!=null">
-			and "USERNAME" = #{USERNAME} and "UPASSWORD"=#{UPASSWORD}
+		<if test="USERNAME!=null and USERNAME!=''">
+			and "USERNAME" = #{USERNAME}
+		</if>
+		<if test="PASSWORD!=null  and PASSWORD!=''">
+			and "UPASSWORD"=#{UPASSWORD}
 		</if>
 		<if test="USER_ID!=null and USER_ID>0">
 			and "USER_ID" = #{USER_ID}
 		</if>
+		<if test="ROLE_ID!=null and  ROLE_ID!=''">
+			and "ROLE_ID"= #{ROLE_ID}
+		</if>
+		<if test="UPLATFORM!=null and  UPLATFORM!=''">
+			and "UPLATFORM"= #{UPLATFORM}
+		</if>
+		<if test="COMPANY!=null and  COMPANY!=''">
+			and "COMPANY"= #{COMPANY}
+		</if>
+		<if test="COSTCENTER!=null and  COSTCENTER!=''">
+			and "COSTCENTER"= #{COSTCENTER}
+		</if>
+		<if test="ORGANIZATION!=null and  ORGANIZATION!=''">
+			and "ORGANIZATION"= #{ORGANIZATION}
+		</if>
+		<if test="POSITION!=null and  POSITION!=''">
+			and "POSITION"= #{POSITION}
+		</if>
+		<if test="OPENID!=null and  OPENID!=''">
+			and "OPENID"= #{OPENID}
+		</if>
+
+
 	</select>
 	<!-- 通过用户ID获取用户信息和角色信息 -->
-	<select id="getUserAndRoleInfo" parameterType="String" resultMap="userAndRoleResultMap">
+	<select id="getUserAndRoleInfo" parameterType="String"
+		resultMap="userAndRoleResultMap">
 		select u."USER_ID",
 		u."USERNAME",
 		u."UNAME" ,
@@ -162,14 +205,106 @@
 		<if test="USER_ID!=null and USER_ID>0">
 			and u."USER_ID" = #{USER_ID}
 		</if>
-		<if test="PLATFORM!=null and PLATFORM!=null">
-			and "PLATFORM"= #{PLATFORM}
+		<if test="UPLATFORM!=null and  UPLATFORM!=''">
+			and "UPLATFORM"= #{UPLATFORM}
 		</if>
 	</select>
 
 
 
 
+	<select id="queryBoByUidUpa" parameterType="String" resultMap="boResultMap">
+		SELECT B.DB_ID,
+		B.BO_NAME,
+		B.BO_ID,
+		B.BO_KEY,
+		B.BO_VALUE,
+		B.ADD1,
+		B.ADD2,
+		B.ADD3,
+		B.ADD4,
+		B.ADD5,
+		B.BPLATFORM
+		FROM SYS_USER_OBJECT UO, SYS_USER
+		U,SYS_BO B
+		WHERE 1=1
+		AND UO.USER_ID=U.USER_ID
+		AND UO.BO_ID=B.DB_ID
+		<if test="USER_ID!=null and  USER_ID!=''">
+			AND U.USER_ID=#{USER_ID}
+		</if>
+		<if test="UPLATFORM!=null and  UPLATFORM!=''">
+			AND U.UPLATFORM =#{UPLATFORM}
+		</if>
+	</select>
+	<!-- 更新登录时间 -->
+	<update id="updateUser" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set
+			"USERNAME"=#{USERNAME}
+		<if test="UPASSWORD!=null and UPASSWORD!=''">
+			,"UPASSWORD"=#{UPASSWORD}
+		</if>
+		<if test="UNAME!=null and UNAME!=''">
+			,"UNAME"=#{UNAME}
+		</if>
+		<if test="ROLE_ID!=null and ROLE_ID!=''">
+			,"ROLE_ID"=#{ROLE_ID}
+		</if>
+		<if test="LAST_LOGIN!=null and LAST_LOGIN!=''">
+			,"LAST_LOGIN"=to_date(#{LAST_LOGIN,jdbcType=DATE},'yyyy-mm-dd')
+		</if>
+		<if test="LAST_IP!=null and LAST_IP!=''">
+			,"LAST_IP"=#{LAST_IP}
+		</if>
+		<if test="STATUS!=null and STATUS!=''">
+			,"STATUS"=#{STATUS}
+		</if>
+		<if test="EMAIL!=null and EMAIL!=''">
+			,"EMAIL"=#{EMAIL}
+		</if>
+		<if test="PHONE!=null and PHONE!=''">
+			,"PHONE"=#{PHONE}
+		</if>
+		<if test="UGROUP!=null and UGROUP!=''">
+			,"UGROUP"=#{UGROUP}
+		</if>
+		<if test="UPLATFORM!=null and UPLATFORM!=''">
+			,"UPLATFORM"=#{UPLATFORM}
+		</if>
+		<if test="UCOMPANY!=null and UCOMPANY!=''">
+			,"UCOMPANY"=#{UCOMPANY}
+		</if>
+		<if test="UCOSTCENTER!=null and UCOSTCENTER!=''">
+			,"UCOSTCENTER"=#{UCOSTCENTER}
+		</if>
+		<if test="UORGANIZATION!=null and UORGANIZATION!=''">
+			,"UORGANIZATION"=#{UORGANIZATION}
+		</if>
+		<if test="POSITION!=null and POSITION!=''">
+			,"POSITION"=#{POSITION}
+		</if>
+		<if test="CREATETIME!=null and CREATETIME!=''">
+			,"CREATETIME"=to_date(#{CREATETIME,jdbcType=DATE},'yyyy-mm-dd')
+		</if>
+		<if test="INTERSTART!=null and INTERSTART!=''">
+		,"INTERSTART"=to_date(#{INTERSTART,jdbcType=DATE},'yyyy-mm-dd')
+	    </if>
+		<if test="INTERDURA!=null and INTERDURA!=''">
+			,"INTERDURA"=#{INTERDURA,jdbcType=NUMERIC}
+		</if>
+		<if test="LAST_CHANGE!=null and LAST_CHANGE!=''">
+			,"LAST_CHANGE"=to_date(#{LAST_CHANGE,jdbcType=DATE},'yyyy-mm-dd')
+		</if>
+		<if test="OPENID!=null and OPENID!=''">
+			,"OPENID"=#{OPENID}
+		</if>
+		<if test="SECPOLICY!=null and SECPOLICY!=''">
+			,"SECPOLICY"=#{SECPOLICY}
+		</if>
+		where "USER_ID" = #{USER_ID}
+	</update>
 
 
 
@@ -246,7 +381,7 @@
 		u."USERNAME",
 		u."UPASSWORD"
 		u."LAST_LOGIN",
-		u."UNAME" ,
+		u."UNAME",
 		u."LAST_IP",
 		u."EMAIL",
 		u."NUMBER",
@@ -351,8 +486,10 @@
 		<include refid="tableName"></include>
 		(
 		USER_ID, USERNAME, UPASSWORD, UNAME, ROLE_ID,
-		LAST_LOGIN, LAST_IP, STATUS, EMAIL, PHONE, UGROUP, UPLATFORM, UCOMPANY,
-		UCOSTCENTER, UORGANIZATION, POSITION, CREATETIME, INTERSTART,
+		LAST_LOGIN, LAST_IP,
+		STATUS, EMAIL, PHONE, UGROUP, UPLATFORM, UCOMPANY,
+		UCOSTCENTER,
+		UORGANIZATION, POSITION, CREATETIME, INTERSTART,
 		INTERDURA,
 		LAST_CHANGE, OPENID, SECPOLICY
 		) values (
@@ -367,8 +504,8 @@
 		set "UNAME" = #{UNAME},
 		"ROLE_ID" = #{ROLE_ID},
 		"BZ" = #{BZ},
-		"EMAIL" =
-		#{EMAIL},
+		"EMAIL"
+		=#{EMAIL},
 		"NUMBER" = #{NUMBER},
 		"PHONE" = #{PHONE}
 		<if test="UPASSWORD != null and UPASSWORD != ''">

@@ -8,6 +8,20 @@
 		<result column="INTF_URL" property="INTF_URL" />
 		<result column="IPLATFORM" property="IPLATFORM" />
 	</resultMap>
+	
+	<resultMap type="Role" id="roleResultMap">
+		<id column="ROLE_ID" property="ROLE_ID" />
+		<result column="ROLE_NAME" property="ROLE_NAME" />
+		<result column="PARENT_ID" property="PARENT_ID" />
+		<result column="RIGHTS" property="RIGHTS" />
+		<result column="ADD_QX" property="ADD_QX" />
+		<result column="DEL_QX" property="DEL_QX" />
+		<result column="EDIT_QX" property="EDIT_QX" />
+		<result column="QUR_QX" property="QUR_QX" />
+		<result column="RPLATFORM" property="RPLATFORM" />
+		<result column="ROLE_TYPE" property="ROLE_TYPE" />
+	</resultMap>
+	
 	<!--表名 -->
 	<sql id="tableName">
 		"SYS_INTF"
@@ -27,6 +41,34 @@
 		#{INTF_URL},
 		#{IPLATFORM}
 	</sql>
+	
+	<select id="QueryRolebyIntfID" parameterType="String" resultMap="roleResultMap">
+		SELECT 
+                <!-- ri."DB_ID",-->
+                 r."ROLE_ID",
+                 r."ROLE_NAME",
+                 r."PARENT_ID",
+                 r."RIGHTS",
+                 r."ADD_QX",
+                 r."DEL_QX",
+                 r."EDIT_QX",
+                 r."QUR_QX",
+                 r."RPLATFORM",
+                 r."ROLE_TYPE"
+    
+                <!--  intf."INTF_ID",
+                 intf."INTF_NAME",
+                 intf."INTF_URL",
+                 intf."IPLATFORM" -->
+		FROM SYS_ROLE_INTF ri ,SYS_ROLE r ,SYS_INTF intf
+		WHERE
+		ri.ROLE_ID=r.ROLE_ID
+		AND ri.INTF_ID=intf.INTF_ID
+		<if test="INTF_ID!=null and INTF_ID!=null">
+			AND ri.INTF_ID=#{INTF_ID}
+		</if>
+	</select>
+	
 <!--通过ID获取其子一级菜单 -->
 	<select id="QueryIntf" parameterType="String" resultMap="IntfResultMap">
 		select

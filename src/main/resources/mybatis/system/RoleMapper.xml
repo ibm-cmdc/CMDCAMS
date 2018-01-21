@@ -16,6 +16,13 @@
 		<result column="ROLE_TYPE" property="ROLE_TYPE" />
 	</resultMap>
 
+	<resultMap type="Intf" id="IntfResultMap">
+		<id column="INTF_ID" property="INTF_ID" />
+		<result column="INTF_NAME" property="INTF_NAME" />
+		<result column="INTF_URL" property="INTF_URL" />
+		<result column="IPLATFORM" property="IPLATFORM" />
+	</resultMap>
+
 	<!-- 字段 -->
 	<sql id="Field">
 		"ROLE_ID",
@@ -48,17 +55,92 @@
 	<sql id="tableName">
 		"SYS_ROLE"
 	</sql>
+	<select id="QueryIntfbyRoleID" parameterType="String" resultMap="IntfResultMap">
+		SELECT
+		<!-- ri."DB_ID", r."ROLE_ID", r."ROLE_NAME", r."PARENT_ID", r."RIGHTS", 
+			r."ADD_QX", r."DEL_QX", r."EDIT_QX", r."QUR_QX", r."RPLATFORM", r."ROLE_TYPE", -->
 
+		intf."INTF_ID",
+		intf."INTF_NAME",
+		intf."INTF_URL",
+		intf."IPLATFORM"
+		FROM SYS_ROLE_INTF ri ,SYS_ROLE r ,SYS_INTF intf
+		WHERE
+		ri.ROLE_ID=r.ROLE_ID
+		AND ri.INTF_ID=intf.INTF_ID
+		<if test="ROLE_ID!=null and ROLE_ID!=null">
+			AND r.ROLE_ID=#{ROLE_ID}
+		</if>
+	</select>
 	<!-- 列出此组下的角色 -->
-	<select id="listAllRolesByPId" resultMap="roleResultMap">
+	<select id="QueryAllRolesByRIdPa" resultMap="roleResultMap">
 		select
 		<include refid="Field"></include>
 		from
 		<include refid="tableName"></include>
-		where
-		"PARENT_ID" = #{ROLE_ID}
+		where 1=1
+		<if test="ROLE_ID!=null and ROLE_ID!=null">
+			and "ROLE_ID" = #{ROLE_ID}
+		</if>
+		<if test="RPLATFORM!=null and RPLATFORM!=null">
+			and "RPLATFORM" = #{RPLATFORM}
+		</if>
 		ORDER BY "ROLE_ID"
 	</select>
+
+	<!-- 保存修改 -->
+	<update id="updateEdit" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set "ROLE_NAME"=#{ROLE_NAME}
+		<if test="PARENT_ID != null and  PARENT_ID!= ''">
+			,"PARENT_ID"=#{PARENT_ID}
+		</if>
+		<if test="RIGHTS != null and  RIGHTS!= ''">
+			,"RIGHTS"=#{RIGHTS}
+		</if>
+		<if test="ADD_QX != null and  ADD_QX!= ''">
+			,"ADD_QX"=#{ADD_QX}
+		</if>
+		<if test="DEL_QX != null and  DEL_QX!= ''">
+			,"DEL_QX"=#{DEL_QX}
+		</if>
+		<if test="EDIT_QX != null and  EDIT_QX!= ''">
+			,"EDIT_QX"=#{EDIT_QX}
+		</if>
+		<if test="QUR_QX != null and  QUR_QX!= ''">
+			,"QUR_QX"=#{QUR_QX}
+		</if>
+		<if test="RPLATFORM != null and  RPLATFORM!= ''">
+			,"RPLATFORM"=#{RPLATFORM}
+		</if>
+		<if test="ROLE_TYPE != null and  ROLE_TYPE!= ''">
+			,"ROLE_TYPE"=#{ROLE_TYPE}
+		</if>
+		where "ROLE_ID" = #{ROLE_ID}
+	</update>
+
+
+
+
+	<!-- 保存修改 -->
+	<update id="edit" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set "ROLE_NAME" = #{ROLE_NAME}
+		where "ROLE_ID" = #{ROLE_ID}
+	</update>
+
+<!-- 删除角色 -->
+	<delete id="deleteRoleById" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where "ROLE_ID"=#{ROLE_ID}
+	</delete>
+	
+	
+	
+
 
 	<!-- 通过id查找 -->
 	<select id="findObjectById" parameterType="pd" resultType="pd">
@@ -80,20 +162,9 @@
 		)
 	</insert>
 
-	<!-- 保存修改 -->
-	<update id="edit" parameterType="pd">
-		update
-		<include refid="tableName"></include>
-		set "ROLE_NAME" = #{ROLE_NAME}
-		where "ROLE_ID" = #{ROLE_ID}
-	</update>
 
-	<!-- 删除角色 -->
-	<delete id="deleteRoleById" parameterType="String">
-		delete from
-		<include refid="tableName"></include>
-		where "ROLE_ID"=#{ROLE_ID}
-	</delete>
+
+	
 
 	<!-- 给当前角色附加菜单权限 -->
 	<update id="updateRoleRights" parameterType="Role">

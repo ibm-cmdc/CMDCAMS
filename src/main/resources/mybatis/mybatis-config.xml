@@ -14,9 +14,7 @@
 		<typeAlias type="com.ibm.ams.entity.system.Intf" alias="Intf"/>
 		<typeAlias type="com.ibm.ams.entity.system.Menu" alias="Menu"/>
 		<typeAlias type="com.ibm.ams.entity.system.Role" alias="Role"/>
-		<typeAlias type="com.ibm.ams.entity.system.RoleIntf" alias="RoleIntf"/>
 		<typeAlias type="com.ibm.ams.entity.system.User" alias="User"/>
-		<typeAlias type="com.ibm.ams.entity.system.UserBo" alias="UserBo"/>
 		<typeAlias type="com.ibm.ams.util.PageData" alias="pd"/>
 		<!-- 分页 -->
 		<typeAlias type="com.ibm.ams.entity.Page" alias="Page"/>
