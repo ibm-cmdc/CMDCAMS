@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.ibm.ams.dao.DaoSupport;
 import com.ibm.ams.entity.system.Intf;
+import com.ibm.ams.entity.system.Role;
 import com.ibm.ams.service.intf.IntfManager;
 import com.ibm.ams.util.PageData;
 
@@ -35,6 +36,13 @@ public class IntfService implements IntfManager{
 	public void DeleteIntf(String intfId) throws Exception {
 		// TODO Auto-generated method stub
 		dao.save("IntfMapper.deleteIntfById", intfId);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Role> QueryRolebyIntfID(PageData pd) throws Exception {
+		// TODO Auto-generated method stub
+		return (List<Role>) dao.findForList("IntfMapper.QueryRolebyIntfID", pd);
 	}
 
 }

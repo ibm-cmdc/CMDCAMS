@@ -3,6 +3,7 @@ package com.ibm.ams.service.user;
 import java.util.List;
 
 import com.ibm.ams.entity.Page;
+import com.ibm.ams.entity.system.Bo;
 import com.ibm.ams.entity.system.User;
 import com.ibm.ams.util.PageData;
 
@@ -16,7 +17,22 @@ public interface UserManager {
 	 * @throws Exception
 	 */
 	public PageData getUserByNameAndPwd(PageData pd)throws Exception;
+	/**
+	 * 
+	 * @param pd
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Bo> queryBoByUidUpa(PageData pd)throws Exception;
 	
+	
+	public void updateUser(PageData pd)throws Exception;
+	/**
+	 * 根据名称和密码查询用户和用户角色
+	 * @param pd
+	 * @return
+	 * @throws Exception
+	 */
 	public User getUserAndRoleByNameAndPwd(PageData pd)throws Exception;
 	
 	/**更新登录时间

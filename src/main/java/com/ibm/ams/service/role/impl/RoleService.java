@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.ibm.ams.dao.DaoSupport;
+import com.ibm.ams.entity.system.Intf;
 import com.ibm.ams.entity.system.Role;
 import com.ibm.ams.service.role.RoleManager;
 import com.ibm.ams.util.PageData;
@@ -24,10 +25,14 @@ public class RoleService implements RoleManager{
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Role> listAllRolesByPId(PageData pd) throws Exception {
-		return (List<Role>) dao.findForList("RoleMapper.listAllRolesByPId", pd);
+	public List<Role> listAllRolesByRIdPa(PageData pd) throws Exception {
+		return (List<Role>) dao.findForList("RoleMapper.QueryAllRolesByRIdPa", pd);
 	}
-	
+    
+	public void updateEdit(Role role) throws Exception {
+		// TODO Auto-generated method stub
+		dao.update("RoleMapper.updateEdit", role);
+	}
 	/**通过id查找
 	 * @param pd
 	 * @return
@@ -94,5 +99,18 @@ public class RoleService implements RoleManager{
 	public void saveB4Button(String msg,PageData pd) throws Exception {
 		dao.update("RoleMapper."+msg, pd);
 	}
+
+	/**
+	 * 根据角色ID查询Intf表内容
+	 * @param pd
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Intf> QueryIntfbyRoleID(PageData pd) throws Exception {
+		// TODO Auto-generated method stub
+		return (List<Intf>) dao.findForList("RoleMapper.QueryIntfbyRoleID", pd);
+	}
+
 
 }

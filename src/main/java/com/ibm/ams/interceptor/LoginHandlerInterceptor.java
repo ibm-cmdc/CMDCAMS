@@ -6,8 +6,6 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-
-
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
@@ -17,11 +15,10 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.ibm.ams.entity.system.RoleIntf;
+import com.ibm.ams.entity.system.Intf;
 import com.ibm.ams.entity.token.TokenModel;
-import com.ibm.ams.service.roleintf.RoleIntfManager;
+import com.ibm.ams.service.role.RoleManager;
 import com.ibm.ams.service.token.TokenManager;
-import com.ibm.ams.service.user.UserManager;
 import com.ibm.ams.util.Const;
 import com.ibm.ams.util.PageData;
 
@@ -32,8 +29,8 @@ public class LoginHandlerInterceptor extends HandlerInterceptorAdapter{
 	@Autowired    
 	private TokenManager manager;
 	
-	@Resource(name="roleIntfService")
-	private RoleIntfManager roleIntfManager;
+	@Resource(name="roleService")
+	private RoleManager roleService;
 	
 	//拦截前处理
 	@Override
@@ -58,10 +55,10 @@ public class LoginHandlerInterceptor extends HandlerInterceptorAdapter{
 		
 		PageData pd1 = new PageData();
 		pd1.put("ROLE_ID", "9999");
-		List<RoleIntf> queryRoleAndIntf = roleIntfManager.QueryRoleAndIntf(pd1);
+		List<Intf> queryIntfbyRoleID = roleService.QueryIntfbyRoleID(pd1);
 		
-		for(RoleIntf list : queryRoleAndIntf){
-			System.out.println(list.getIntf().getINTF_NAME());
+		for(Intf list : queryIntfbyRoleID){
+			System.out.println(list.getINTF_NAME());
 		}
 		
 		

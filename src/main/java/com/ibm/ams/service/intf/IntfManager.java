@@ -3,6 +3,7 @@ package com.ibm.ams.service.intf;
 import java.util.List;
 
 import com.ibm.ams.entity.system.Intf;
+import com.ibm.ams.entity.system.Role;
 import com.ibm.ams.util.PageData;
 
 public interface IntfManager {
@@ -14,6 +15,8 @@ public interface IntfManager {
 	 * @throws Exception
 	 */
 	public List<Intf>  QueryIntf(PageData pd)throws Exception;
+	
+	public List<Role> QueryRolebyIntfID(PageData pd) throws Exception;
 	/**
 	 * 创建数据对象
 	 * @param intf

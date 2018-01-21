@@ -2,6 +2,7 @@ package com.ibm.ams.service.role;
 
 import java.util.List;
 
+import com.ibm.ams.entity.system.Intf;
 import com.ibm.ams.entity.system.Role;
 import com.ibm.ams.util.PageData;
 
@@ -13,7 +14,22 @@ public interface RoleManager {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Role> listAllRolesByPId(PageData pd) throws Exception;
+	public List<Role> listAllRolesByRIdPa(PageData pd) throws Exception;
+	
+	/**
+	 * 更改字段
+	 * @param role
+	 * @throws Exception
+	 */
+	public void  updateEdit(Role role)throws Exception;
+	
+	/**
+	 * 根据角色ID查询Intf表内容
+	 * @param pd
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Intf> QueryIntfbyRoleID(PageData pd) throws Exception;
 	
 	/**通过id查找
 	 * @param pd

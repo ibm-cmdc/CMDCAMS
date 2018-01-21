@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.ibm.ams.dao.DaoSupport;
 import com.ibm.ams.entity.Page;
+import com.ibm.ams.entity.system.Bo;
 import com.ibm.ams.entity.system.User;
 import com.ibm.ams.service.user.UserManager;
 import com.ibm.ams.util.PageData;
@@ -29,6 +30,22 @@ public class UserService implements UserManager{
 	public PageData getUserByNameAndPwd(PageData pd)throws Exception{
 		return (PageData)dao.findForObject("UserMapper.getUserInfo", pd);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Bo> queryBoByUidUpa(PageData pd) throws Exception {
+		// TODO Auto-generated method stub
+		return (List<Bo>) dao.findForList("UserMapper.queryBoByUidUpa", pd);
+	}
+	public void updateUser(PageData pd) throws Exception {
+		// TODO Auto-generated method stub
+		dao.update("UserMapper.updateUser", pd);
+	}
+	/**
+	 * 根据名称和密码查询用户和用户角色
+	 * @param pd
+	 * @return
+	 * @throws Exception
+	 */
 	public User getUserAndRoleByNameAndPwd(PageData pd)throws Exception{
 		return (User)dao.findForObject("UserMapper.getUserAndRoleInfo", pd);
 	}
@@ -139,7 +156,9 @@ public class UserService implements UserManager{
 	public void editU(PageData pd)throws Exception{
 		dao.update("UserMapper.editU", pd);
 	}
+
 	
+
 	/**删除用户
 	 * @param pd
 	 * @throws Exception
@@ -172,5 +191,7 @@ public class UserService implements UserManager{
 	public PageData getUserCount(String value)throws Exception{
 		return (PageData)dao.findForObject("UserMapper.getUserCount", value);
 	}
+
+	
 	
 }
