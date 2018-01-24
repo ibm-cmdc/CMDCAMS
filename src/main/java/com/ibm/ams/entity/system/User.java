@@ -21,7 +21,7 @@ public class User {
 	private String UCOMPANY; // 公司
 	private String UCOSTCENTER; // 成本中心
 	private String UORGANIZATION;// 组织单元
-	private String POSITION; // 职位
+	private String UPOSITION; // 职位
 	private String CREATETIME; // 创建时间
 	private String INTERSTART; // 有效期开始
 	private String INTERDURA; // 有效期间
@@ -154,13 +154,14 @@ public class User {
 		this.PHONE = pHONE;
 	}
 
-	public String getPOSITION() {
-		return POSITION;
+	public String getUPOSITION() {
+		return UPOSITION;
 	}
 
-	public void setPOSITION(String pOSITION) {
-		this.POSITION = pOSITION;
+	public void setUPOSITION(String uPOSITION) {
+		UPOSITION = uPOSITION;
 	}
+
 
 	public String getCREATETIME() {
 		return CREATETIME;
@@ -235,5 +236,4 @@ public class User {
 	public void setTOKEN(String tOKEN) {
 		TOKEN = tOKEN;
 	}
-
 }

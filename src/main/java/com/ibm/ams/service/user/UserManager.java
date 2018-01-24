@@ -25,8 +25,12 @@ public interface UserManager {
 	 */
 	public List<Bo> queryBoByUidUpa(PageData pd)throws Exception;
 	
-	
-	public void updateUser(PageData pd)throws Exception;
+	/**
+	 * 修改用户信息
+	 * @param pd
+	 * @throws Exception
+	 */
+	public int updateUser(PageData pd)throws Exception;
 	/**
 	 * 根据名称和密码查询用户和用户角色
 	 * @param pd
@@ -34,6 +38,24 @@ public interface UserManager {
 	 * @throws Exception
 	 */
 	public User getUserAndRoleByNameAndPwd(PageData pd)throws Exception;
+	
+	/**
+	 * 查询用户所有信息
+	 * @param pd
+	 * @return
+	 * @throws Exception
+	 */
+	public List<User> queryUserInfo(PageData pd)throws Exception;
+	/**保存用户
+	 * @param pd
+	 * @throws Exception
+	 */
+	public int saveU(PageData pd)throws Exception;
+	
+	
+	
+	
+	
 	
 	/**更新登录时间
 	 * @param pd
@@ -109,23 +131,19 @@ public interface UserManager {
 	 */
 	public void editU(PageData pd)throws Exception;
 	
-	/**保存用户
-	 * @param pd
-	 * @throws Exception
-	 */
-	public void saveU(PageData pd)throws Exception;
-	
+
 	/**删除用户
 	 * @param pd
 	 * @throws Exception
 	 */
-	public void deleteU(PageData pd)throws Exception;
+	public int deleteU(PageData pd)throws Exception;
 	
 	/**批量删除用户
 	 * @param USER_IDS
+	 * @return 
 	 * @throws Exception
 	 */
-	public void deleteAllU(String[] USER_IDS)throws Exception;
+	public int deleteAllU(String[] USER_IDS)throws Exception;
 	
 	/**用户列表(全部)
 	 * @param pd

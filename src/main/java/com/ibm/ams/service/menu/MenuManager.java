@@ -27,7 +27,7 @@ public interface MenuManager {
 	 * @param menu
 	 * @throws Exception
 	 */
-	public void saveMenu(Menu menu) throws Exception;
+	public int saveMenu(PageData pd) throws Exception;
 	
 	/**
 	 * @param pd
@@ -40,13 +40,13 @@ public interface MenuManager {
 	 * @param MENU_ID
 	 * @throws Exception
 	 */
-	public void deleteMenuById(String MENU_ID) throws Exception;
+	public int deleteMenuById(String MENU_ID) throws Exception;
 	
 	/**
 	 * @param menu
 	 * @throws Exception
 	 */
-	public void edit(Menu menu) throws Exception;
+	public int updateMenu(PageData pd) throws Exception;
 	
 	/**
 	 * @param pd

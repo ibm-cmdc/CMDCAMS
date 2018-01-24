@@ -44,8 +44,8 @@ public class MenuService implements MenuManager{
 	 * @param menu
 	 * @throws Exception
 	 */
-	public void saveMenu(Menu menu) throws Exception {
-		dao.save("MenuMapper.insertMenu", menu);
+	public int  saveMenu(PageData pd) throws Exception {
+		return (int)dao.save("MenuMapper.insertMenu", pd);
 	}
 	
 	/**
@@ -63,8 +63,8 @@ public class MenuService implements MenuManager{
 	 * @param MENU_ID
 	 * @throws Exception
 	 */
-	public void deleteMenuById(String MENU_ID) throws Exception {
-		dao.save("MenuMapper.deleteMenuById", MENU_ID);
+	public int deleteMenuById(String MENU_ID) throws Exception {
+		return (int)dao.save("MenuMapper.deleteMenuById", MENU_ID);
 	}
 	
 	/**
@@ -73,8 +73,8 @@ public class MenuService implements MenuManager{
 	 * @return
 	 * @throws Exception
 	 */
-	public void edit(Menu menu) throws Exception {
-		 dao.update("MenuMapper.updateMenu", menu);
+	public int updateMenu(PageData pd) throws Exception {
+		return (int)dao.update("MenuMapper.updateMenu", pd);
 	}
 	
 	/**

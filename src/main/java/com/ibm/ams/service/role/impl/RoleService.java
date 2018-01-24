@@ -25,14 +25,10 @@ public class RoleService implements RoleManager{
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public List<Role> listAllRolesByRIdPa(PageData pd) throws Exception {
-		return (List<Role>) dao.findForList("RoleMapper.QueryAllRolesByRIdPa", pd);
+	public List<Role> queryRoleInfo(PageData pd) throws Exception {
+		return (List<Role>) dao.findForList("RoleMapper.QueryRolesInfo", pd);
 	}
     
-	public void updateEdit(Role role) throws Exception {
-		// TODO Auto-generated method stub
-		dao.update("RoleMapper.updateEdit", role);
-	}
 	/**通过id查找
 	 * @param pd
 	 * @return
@@ -46,60 +42,25 @@ public class RoleService implements RoleManager{
 	 * @param pd
 	 * @throws Exception
 	 */
-	public void add(PageData pd) throws Exception {
-		dao.save("RoleMapper.insert", pd);
+	public int add(PageData pd) throws Exception {
+		return (int)dao.save("RoleMapper.insert", pd);
 	}
 	
 	/**保存修改
 	 * @param pd
 	 * @throws Exception
 	 */
-	public void edit(PageData pd) throws Exception {
-		dao.update("RoleMapper.edit", pd);
+	public int updateRole(PageData pd) throws Exception {
+		return (int)dao.update("RoleMapper.updateRole", pd);
 	}
 	
 	/**删除角色
 	 * @param ROLE_ID
 	 * @throws Exception
 	 */
-	public void deleteRoleById(String ROLE_ID) throws Exception {
-		dao.delete("RoleMapper.deleteRoleById", ROLE_ID);
+	public int deleteRoleById(String ROLE_ID) throws Exception {
+		return (int)dao.delete("RoleMapper.deleteRoleById", ROLE_ID);
 	}
-	
-	/**给当前角色附加菜单权限
-	 * @param role
-	 * @throws Exception
-	 */
-	public void updateRoleRights(Role role) throws Exception {
-		dao.update("RoleMapper.updateRoleRights", role);
-	}
-	
-	/**通过id查找
-	 * @param roleId
-	 * @return
-	 * @throws Exception
-	 */
-	public Role getRoleById(String ROLE_ID) throws Exception {
-		return (Role) dao.findForObject("RoleMapper.getRoleById", ROLE_ID);
-	}
-	
-	/**给全部子角色加菜单权限
-	 * @param pd
-	 * @throws Exception
-	 */
-	public void setAllRights(PageData pd) throws Exception {
-		dao.update("RoleMapper.setAllRights", pd);
-	}
-	
-	/**权限(增删改查)
-	 * @param msg 区分增删改查
-	 * @param pd
-	 * @throws Exception
-	 */
-	public void saveB4Button(String msg,PageData pd) throws Exception {
-		dao.update("RoleMapper."+msg, pd);
-	}
-
 	/**
 	 * 根据角色ID查询Intf表内容
 	 * @param pd

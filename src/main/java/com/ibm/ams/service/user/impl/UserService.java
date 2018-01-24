@@ -36,10 +36,31 @@ public class UserService implements UserManager{
 		// TODO Auto-generated method stub
 		return (List<Bo>) dao.findForList("UserMapper.queryBoByUidUpa", pd);
 	}
-	public void updateUser(PageData pd) throws Exception {
+	public int updateUser(PageData pd) throws Exception {
 		// TODO Auto-generated method stub
-		dao.update("UserMapper.updateUser", pd);
+		return (int)dao.update("UserMapper.updateUser", pd);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<User> queryUserInfo(PageData pd) throws Exception {
+		// TODO Auto-generated method stub
+		return (List<User>) dao.findForList("UserMapper.queryUserInfo", pd);
+	}
+	/**保存用户
+	 * @param pd
+	 * @throws Exception
+	 */
+	public int saveU(PageData pd)throws Exception{
+		return (int) dao.save("UserMapper.saveU", pd);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * 根据名称和密码查询用户和用户角色
 	 * @param pd
@@ -141,13 +162,7 @@ public class UserService implements UserManager{
 		return (PageData)dao.findForObject("UserMapper.findById", pd);
 	}
 	
-	/**保存用户
-	 * @param pd
-	 * @throws Exception
-	 */
-	public void saveU(PageData pd)throws Exception{
-		dao.save("UserMapper.saveU", pd);
-	}
+	
 	 
 	/**修改用户
 	 * @param pd
@@ -163,16 +178,16 @@ public class UserService implements UserManager{
 	 * @param pd
 	 * @throws Exception
 	 */
-	public void deleteU(PageData pd)throws Exception{
-		dao.delete("UserMapper.deleteU", pd);
+	public int deleteU(PageData pd)throws Exception{
+		return (int)dao.delete("UserMapper.deleteUserByID", pd);
 	}
 	
 	/**批量删除用户
 	 * @param USER_IDS
 	 * @throws Exception
 	 */
-	public void deleteAllU(String[] USER_IDS)throws Exception{
-		dao.delete("UserMapper.deleteAllU", USER_IDS);
+	public int deleteAllU(String[] USER_IDS)throws Exception{
+		return (int)dao.delete("UserMapper.deleteAllU", USER_IDS);
 	}
 	
 	/**用户列表(全部)
@@ -192,6 +207,7 @@ public class UserService implements UserManager{
 		return (PageData)dao.findForObject("UserMapper.getUserCount", value);
 	}
 
+	
 	
 	
 }
