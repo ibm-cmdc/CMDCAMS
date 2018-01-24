@@ -11,8 +11,8 @@
 		<result column="MENU_ORDER" property="MENU_ORDER" />
 		<result column="MENU_ICON" property="MENU_ICON" />
 		<result column="MENU_TYPE" property="MENU_TYPE" />
-	    <result column="MENU_STATE" property="MENU_STATE" />
-		<result column="MPLATFORM" property="MPLATFORM" /> 
+		<result column="MENU_STATE" property="MENU_STATE" />
+		<result column="MPLATFORM" property="MPLATFORM" />
 	</resultMap>
 
 	<!-- ztree -->
@@ -58,12 +58,13 @@
 		#{MPLATFORM}
 	</sql>
 	<!--通过ID获取其子一级菜单 -->
-	<select id="listSubMenuByParentId" parameterType="String" resultMap="menuResultMap">
+	<select id="listSubMenuByParentId" parameterType="String"
+		resultMap="menuResultMap">
 		select
 		<include refid="Field"></include>
 		from
 		<include refid="tableName"></include>
-		where  "PARENT_ID" = #{parentId} 
+		where "PARENT_ID" = #{parentId}
 		order by "MENU_ORDER"
 	</select>
 
@@ -77,13 +78,25 @@
 	</select>
 
 	<!--新增 -->
-	<insert id="insertMenu" parameterType="Menu" >
+	<insert id="insertMenu" parameterType="pd">
+	  <selectKey keyProperty="keyMenu_ID" resultType="String"
+			order="BEFORE">
+			select SYS_MENU_SEQ.NEXTVAL from dual
+		</selectKey>
 		insert into
 		<include refid="tableName"></include>
 		(
 		<include refid="Field"></include>
 		) values (
-		<include refid="FieldValue"></include>
+		${keyMenu_ID},
+		#{MENU_NAME},
+		#{MENU_URL},
+		#{PARENT_ID},
+		#{MENU_ORDER},
+		#{MENU_ICON},
+		#{MENU_TYPE},
+		#{MENU_STATE},
+		#{MPLATFORM}
 		)
 	</insert>
 
@@ -101,18 +114,32 @@
 	</delete>
 
 	<!--编辑 -->
-	<update id="updateMenu" parameterType="Menu">
+	<update id="updateMenu" parameterType="pd">
 		update
 		<include refid="tableName"></include>
 		set
-		"MENU_NAME" =#{MENU_NAME},
-		"MENU_URL" =#{MENU_URL},
-		"PARENT_ID" =#{PARENT_ID},
-		"MENU_ORDER" =#{MENU_ORDER},
-		"MENU_ICON" =#{MENU_ICON},
-		"MENU_TYPE" =#{MENU_TYPE},
-		"MENU_STATE" =#{MENU_STATE},
-		"MPLATFORM" =#{MPLATFORM}
+		   "MENU_NAME"=#{MENU_NAME}
+		<if test="MENU_URL!=null and  MENU_URL!=''">
+		    ,"MENU_URL" =#{MENU_URL}
+		</if>
+		<if test="PARENT_ID!=null and  PARENT_ID!=''">
+			,"PARENT_ID" =#{PARENT_ID}
+		</if>
+		<if test="MENU_ORDER!=null and  MENU_ORDER!=''">
+			,"MENU_ORDER" =#{MENU_ORDER}
+		</if>
+		<if test="MENU_ICON!=null and  MENU_ICON!=''">
+			,"MENU_ICON" =#{MENU_ICON}
+		</if>
+		<if test="MENU_TYPE!=null and  MENU_TYPE!=''">
+			,"MENU_TYPE" =#{MENU_TYPE}
+		</if>
+		<if test="MENU_STATE!=null and  MENU_STATE!=''">
+			,"MENU_STATE" =#{MENU_STATE}
+		</if>
+		<if test="MPLATFORM!=null and  MPLATFORM!=''">
+			,"MPLATFORM" =#{MPLATFORM}
+		</if>
 		where
 		"MENU_ID"=#{MENU_ID}
 	</update>
