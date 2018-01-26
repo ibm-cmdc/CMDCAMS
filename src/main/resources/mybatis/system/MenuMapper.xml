@@ -57,9 +57,37 @@
 		#{MENU_STATE},
 		#{MPLATFORM}
 	</sql>
+	<sql id="MenuCconditions">
+		<if test="MENU_ID!=null and MENU_ID!=''">
+			and "MENU_ID"=#{MENU_ID}
+		</if>
+		<if test="MENU_NAME!=null and MENU_NAME!=''">
+			and "MENU_NAME"=#{MENU_NAME}
+		</if>
+		<if test="MENU_URL!=null and MENU_URL!=''">
+			and "MENU_URL"=#{MENU_URL}
+		</if>
+		<if test="PARENT_ID!=null and PARENT_ID!=''">
+			and "PARENT_ID"=#{PARENT_ID}
+		</if>
+		<if test="MENU_ORDER!=null and MENU_ORDER!=''">
+			and "MENU_ORDER"=#{MENU_ORDER}
+		</if>
+		<if test="MENU_ICON!=null and MENU_ICON!=''">
+			and "MENU_ICON"=#{MENU_ICON}
+		</if>
+		<if test="MENU_TYPE!=null and MENU_TYPE!=''">
+			and "MENU_TYPE"=#{MENU_TYPE}
+		</if>
+		<if test="MENU_STATE!=null and MENU_STATE!=''">
+			and "MENU_STATE"=#{MENU_STATE}
+		</if>
+		<if test="MPLATFORM!=null and MPLATFORM!=''">
+			and "MPLATFORM"=#{MPLATFORM}
+		</if>
+	</sql>
 	<!--通过ID获取其子一级菜单 -->
-	<select id="listSubMenuByParentId" parameterType="String"
-		resultMap="menuResultMap">
+	<select id="listSubMenuByParentId" parameterType="String" resultMap="menuResultMap">
 		select
 		<include refid="Field"></include>
 		from
@@ -76,10 +104,20 @@
 		<include refid="tableName"></include>
 		where "MENU_ID"=#{MENU_ID}
 	</select>
-
+	
+	<!--通过菜单ID获取数据 -->
+	<select id="queryMenu" parameterType="pd" resultMap="menuResultMap">
+		select
+		<include refid="Field"></include>
+		from
+		<include refid="tableName"></include>
+		where 1=1
+        <include refid="MenuCconditions"/>
+	</select>
+	
 	<!--新增 -->
 	<insert id="insertMenu" parameterType="pd">
-	  <selectKey keyProperty="keyMenu_ID" resultType="String"
+		<selectKey keyProperty="keyMenu_ID" resultType="String"
 			order="BEFORE">
 			select SYS_MENU_SEQ.NEXTVAL from dual
 		</selectKey>
@@ -112,15 +150,30 @@
 		<include refid="tableName"></include>
 		where "MENU_ID"=#{MENU_ID}
 	</delete>
+	<!-- 批量删除菜单 -->
+	<delete id="deletePLMenuById" parameterType="String">
+		delete from
+		<include refid="tableName"></include>
+		where
+		"MENU_ID" in
+		<foreach item="item" index="index" collection="array" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		and
+		"PARENT_ID" != '100'
+	</delete>
+
+
 
 	<!--编辑 -->
 	<update id="updateMenu" parameterType="pd">
 		update
 		<include refid="tableName"></include>
 		set
-		   "MENU_NAME"=#{MENU_NAME}
+		"MENU_NAME"=#{MENU_NAME}
 		<if test="MENU_URL!=null and  MENU_URL!=''">
-		    ,"MENU_URL" =#{MENU_URL}
+			,"MENU_URL" =#{MENU_URL}
 		</if>
 		<if test="PARENT_ID!=null and  PARENT_ID!=''">
 			,"PARENT_ID" =#{PARENT_ID}

@@ -507,35 +507,35 @@
 		<include refid="tableName"></include>
 		(
 		USER_ID, USERNAME, UPASSWORD, UNAME, ROLE_ID,
-		LAST_LOGIN, LAST_IP,
+		<!-- LAST_LOGIN, --> LAST_IP,
 		STATUS, EMAIL, PHONE, UGROUP, UPLATFORM, UCOMPANY,
 		UCOSTCENTER,
 		UORGANIZATION, UPOSITION, CREATETIME, INTERSTART,
 		INTERDURA,
-		LAST_CHANGE, OPENID, SECPOLICY
+		<!-- LAST_CHANGE, --> OPENID, SECPOLICY
 		) values (
 		${keyUSER_ID},
-		#{USERNAME},
-		#{UPASSWORD},
-		#{UNAME},
-		#{ROLE_ID},
-		to_date(#{LAST_LOGIN,jdbcType=DATE},'yyyy-mm-dd'),
-		#{LAST_IP},
-		#{STATUS},
-		#{EMAIL},
-		#{PHONE},
-		#{UGROUP},
-		#{UPLATFORM},
-		#{UCOMPANY},
-		#{UCOSTCENTER},
-		#{UORGANIZATION},
-		#{UPOSITION},
+		#{USERNAME,jdbcType=VARCHAR},
+		#{UPASSWORD,jdbcType=VARCHAR},
+		#{UNAME,jdbcType=VARCHAR},
+		#{ROLE_ID,jdbcType=VARCHAR},
+		<!-- to_date(#{LAST_LOGIN,jdbcType=DATE},'yyyy-mm-dd'), -->
+		#{LAST_IP,jdbcType=VARCHAR},
+		#{STATUS,jdbcType=VARCHAR},
+		#{EMAIL,jdbcType=VARCHAR},
+		#{PHONE,jdbcType=VARCHAR},
+		#{UGROUP,jdbcType=VARCHAR},
+		#{UPLATFORM,jdbcType=VARCHAR},
+		#{UCOMPANY,jdbcType=VARCHAR},
+		#{UCOSTCENTER,jdbcType=VARCHAR},
+		#{UORGANIZATION,jdbcType=VARCHAR},
+		#{UPOSITION,jdbcType=VARCHAR},
 		to_date(#{CREATETIME,jdbcType=DATE},'yyyy-mm-dd'),
 		to_date(#{INTERSTART,jdbcType=DATE},'yyyy-mm-dd'),
 		#{INTERDURA,jdbcType=NUMERIC},
-		to_date(#{LAST_CHANGE,jdbcType=DATE},'yyyy-mm-dd'),
-		#{OPENID},
-		#{SECPOLICY}
+		<!-- to_date(#{LAST_CHANGE,jdbcType=DATE},'yyyy-mm-dd'), -->
+		#{OPENID,jdbcType=VARCHAR},
+		#{SECPOLICY,jdbcType=VARCHAR}
 		)
 	</insert>
 
