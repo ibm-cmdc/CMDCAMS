@@ -15,7 +15,7 @@
 	">
 	
 	<!-- sql会话模版 -->
-	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">
 		<constructor-arg ref="sqlSessionFactory" />
 	</bean>
 	<!-- 配置mybatis -->
@@ -56,6 +56,14 @@
          <property name="removeAbandonedTimeout" value="${removeAbandonedTimeout}" />
          <!-- 关闭abanded连接时输出错误日志 -->   
          <property name="logAbandoned" value="${logAbandoned}" />
+         <property name="connectionProperties">
+        <!-- 
+            链接参数配置
+            “clientEncoding”和“serverEncoding”，分别指定数据库客户端和服务器端的字符编码
+            Encoding Filter从这两个参数获取编码
+         -->
+        <value>clientEncoding=GBK;serverEncoding=ISO-8859-1;</value>
+    </property>
 	</bean> 
 	
 	<!-- 事物处理 -->
