@@ -1,9 +1,0 @@
- <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-	<script src="${pageContext.request.contextPath}/AMS/assets/js/jquery.min.js"></script>
-    <script src="${pageContext.request.contextPath}/AMS/assets/js/amazeui.min.js"></script>
-    <script src="${pageContext.request.contextPath}/AMS/assets/js/iscroll.js"></script>
-    <script src="${pageContext.request.contextPath}/AMS/assets/js/app.js"></script>
-    <script src="${pageContext.request.contextPath}/AMS/assets/lib/amazeui.datatables.min.js"></script>
-    <script src="${pageContext.request.contextPath}/AMS/assets/js/echarts.min.js"></script>
-    <script src="${pageContext.request.contextPath}/AMS/assets/js/amsutil.js"></script>
-    
