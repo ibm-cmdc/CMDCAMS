@@ -13,18 +13,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ibm.ams.controller.base.BaseController;
+import com.ibm.ams.entity.system.Menu;
 import com.ibm.ams.entity.system.Role;
 import com.ibm.ams.entity.system.User;
 import com.ibm.ams.service.menu.MenuManager;
 import com.ibm.ams.service.role.RoleManager;
 import com.ibm.ams.service.user.UserManager;
 import com.ibm.ams.util.Const;
+import com.ibm.ams.util.DateUtil;
 import com.ibm.ams.util.PageData;
 import com.ibm.ams.util.RightsHelper;
 import com.ibm.ams.util.Tools;
 
 import net.sf.json.JSONArray;
-import oracle.net.aso.p;
 
 @Controller
 public class UmeController extends BaseController{
@@ -105,6 +106,35 @@ public class UmeController extends BaseController{
 		}
 		return rspJson.toString();
 	}
+	@RequestMapping(value="/queryMenu", method = RequestMethod.GET)
+	@ResponseBody
+	public String queryMenu() throws Exception{
+		PageData pd = this.getPageData();
+		JSONObject rspJson = new JSONObject();
+        List<Menu> queryMenu = menuService.queryMenu(pd);
+        JSONArray arr = JSONArray.fromObject(queryMenu);
+        if (null!=queryMenu||"".equals(queryMenu)) {
+        	int size = queryMenu.size();
+        	if (0<size) {
+        		rspJson.put(Const.RESULT_CODE, "S");
+        		rspJson.put("LISTROLEINFO", arr);
+    			rspJson.put(Const.RESULT_MSG, "查询菜单信息成功,共"+size+"!");
+			}else{
+				rspJson.put(Const.RESULT_CODE, "W");
+				rspJson.put("LISTROLEINFO", "");
+				rspJson.put(Const.RESULT_MSG, "查询菜单信息成功,共"+size+"!");
+			}
+		}else{
+			rspJson.put(Const.RESULT_CODE, "E");
+			rspJson.put(Const.RESULT_MSG, "查询菜单信息失败!");
+		}
+		return rspJson.toString();
+	}
+	/**
+	 * 创建菜单信息
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/saveMenu", method = RequestMethod.GET)
 	@ResponseBody
 	public String saveMenu() throws Exception{
@@ -113,6 +143,7 @@ public class UmeController extends BaseController{
         int saveMenu = menuService.saveMenu(pd);
         String menu_name = (String) pd.get("MENU_NAME");
         if (0<saveMenu) {
+        	
 			rspJson.put(Const.RESULT_CODE, "S");
 			rspJson.put(Const.RESULT_MSG, "添加菜单名称【"+menu_name+"】信息成功!");
 		}else{
@@ -158,6 +189,10 @@ public class UmeController extends BaseController{
 	@ResponseBody
 	public String saveUser() throws Exception{
 		PageData pd=this.getPageData();
+		pd.put("UPASSWORD", "abcd1234");//初始化默认密码
+		pd.put("CREATETIME", DateUtil.getStringCurrentDate("yyyy/MM/dd"));//创建时间
+		pd.put("LAST_IP", "");//登录IP
+		pd.put("SECPOLICY", "");//密码策略
 		JSONObject rspJson = new JSONObject();
 		String username = (String) pd.get("USERNAME");
 		int saveU = userService.saveU(pd);
@@ -256,10 +291,38 @@ public class UmeController extends BaseController{
 		}
 		return rspJson.toString();
 	}
+	/**
+	 * 删除菜单
+	 * @param menu_id
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/deletePLMenuById", method = RequestMethod.GET)
+	@ResponseBody
+	public String deletePLMenuById(String[] MENU_ID) throws Exception{
+		JSONObject rspJson = new JSONObject();
+		int deleteMenuById = menuService.deletePLMenuById(MENU_ID);
+		if (0<deleteMenuById) {
+			rspJson.put(Const.RESULT_CODE, "S");
+			rspJson.put(Const.RESULT_MSG, "删除菜单ID【"+MENU_ID+"】信息成功!");
+		}else{
+			rspJson.put(Const.RESULT_CODE, "E");
+			rspJson.put(Const.RESULT_MSG, "删除菜单ID【"+MENU_ID+"】信息失败!");
+		}
+		return rspJson.toString();
+	}
+	/**
+	 * 根据角色ID删除角色信息
+	 * @param role_id
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/deleteRoleByID", method = RequestMethod.GET)
 	@ResponseBody
-	public String deleteRoleByID(String role_id) throws Exception{
+	public String deleteRoleByID() throws Exception{
 		JSONObject rspJson = new JSONObject();
+		PageData pd=this.getPageData();
+		String role_id=(String)pd.get("ROLE_ID");
 		int deleteRoleById = roleService.deleteRoleById(role_id);
 		if (0<deleteRoleById) {
 			rspJson.put(Const.RESULT_CODE, "S");
@@ -270,12 +333,18 @@ public class UmeController extends BaseController{
 		}
 		return rspJson.toString();
 	}
+	/**
+	 * 根据用户id删除用户
+	 * @param user_id
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/deleteUserByID", method = RequestMethod.GET)
 	@ResponseBody
-	public String deleteUserByID(String user_id) throws Exception{
+	public String deleteUserByID() throws Exception{
 		JSONObject rspJson = new JSONObject();
-		PageData pd = new PageData();
-		pd.put("USER_ID", user_id);
+		PageData pd=this.getPageData();
+		String user_id=(String)pd.get("USER_ID");
 		int deleteU = userService.deleteU(pd);
 		if (0<deleteU) {
 			rspJson.put(Const.RESULT_CODE, "S");
@@ -286,11 +355,17 @@ public class UmeController extends BaseController{
 		}
 		return rspJson.toString();
 	}
+	/**
+	 * 批量删除用户，根据用户ID
+	 * @param user_ids
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/deletePLUserByID", method = RequestMethod.GET)
 	@ResponseBody
-	public String deletePLUserByID(String[] user_ids) throws Exception{
+	public String deletePLUserByID(String[] USER_ID) throws Exception{
 		JSONObject rspJson = new JSONObject();
-		int deleteAllU = userService.deleteAllU(user_ids);
+		int deleteAllU = userService.deleteAllU(USER_ID);
 		if (0<deleteAllU) {
 			rspJson.put(Const.RESULT_CODE, "S");
 			rspJson.put(Const.RESULT_MSG, "删除用户【"+deleteAllU+"】条信息成功!");

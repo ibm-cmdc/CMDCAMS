@@ -54,7 +54,7 @@ public class LoginHandlerInterceptor extends HandlerInterceptorAdapter{
 		
 		
 		PageData pd1 = new PageData();
-		pd1.put("ROLE_ID", "9999");
+		pd1.put("ROLE_ID", "1");
 		List<Intf> queryIntfbyRoleID = roleService.QueryIntfbyRoleID(pd1);
 		
 		for(Intf list : queryIntfbyRoleID){

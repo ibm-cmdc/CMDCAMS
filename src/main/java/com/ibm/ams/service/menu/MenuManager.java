@@ -16,6 +16,7 @@ public interface MenuManager {
 	 */
 	public List<Menu> listSubMenuByParentId(String parentId)throws Exception;
 	
+	public List<Menu> queryMenu(PageData pd) throws Exception;
 	/**
 	 * @param pd
 	 * @return
@@ -41,6 +42,11 @@ public interface MenuManager {
 	 * @throws Exception
 	 */
 	public int deleteMenuById(String MENU_ID) throws Exception;
+	/**
+	 * @param MENU_ID
+	 * @throws Exception
+	 */
+	public int deletePLMenuById(String[] MENU_ID) throws Exception;
 	
 	/**
 	 * @param menu

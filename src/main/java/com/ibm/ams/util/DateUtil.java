@@ -175,10 +175,19 @@ public class DateUtil {
         String dateStr = sdf.format(date);
         return dateStr;
     }
-    
+    /**
+     * 获取当前日期
+     * @return
+     */
+    public static String getStringCurrentDate(String format){
+    	Date d = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		return sdf.format(d);
+    } 
     public static void main(String[] args) {
     	System.out.println(getDays());
     	System.out.println(getAfterDayWeek("3"));
+    	System.out.println(DateUtil.getStringCurrentDate("yyyy/MM/dd"));
     }
 
 }

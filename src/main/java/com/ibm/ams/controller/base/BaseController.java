@@ -1,6 +1,8 @@
 package com.ibm.ams.controller.base;
 
 
+import java.io.UnsupportedEncodingException;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;

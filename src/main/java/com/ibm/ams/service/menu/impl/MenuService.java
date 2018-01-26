@@ -30,6 +30,14 @@ public class MenuService implements MenuManager{
 	}
 	
 	/**
+	 * 根据条件查询menu的信息
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Menu> queryMenu(PageData pd) throws Exception {
+		// TODO Auto-generated method stub
+		return (List<Menu>) dao.findForList("MenuMapper.queryMenu", pd);
+	}
+	/**
 	 * 通过菜单ID获取数据
 	 * @param pd
 	 * @return
@@ -66,7 +74,11 @@ public class MenuService implements MenuManager{
 	public int deleteMenuById(String MENU_ID) throws Exception {
 		return (int)dao.save("MenuMapper.deleteMenuById", MENU_ID);
 	}
-	
+	@Override
+	public int deletePLMenuById(String[] MENU_ID) throws Exception {
+		// TODO Auto-generated method stub
+		return (int)dao.save("MenuMapper.deletePLMenuById", MENU_ID);
+	}
 	/**
 	 * 编辑
 	 * @param menu
@@ -117,5 +129,9 @@ public class MenuService implements MenuManager{
 		}
 		return menuList;
 	}
+
+	
+
+	
 	
 }
